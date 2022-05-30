@@ -27,8 +27,6 @@ export default function Payment() {
     }
   }, [hotelSelected]);
 
-  console.log('hotelSelected: ', hotelSelected?.hotelPrice);
-
   function handleModality(modalityType) {
     setModality(modalityType);
   }
