@@ -1,5 +1,5 @@
 /* eslint-disable indent */
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import useEnrollment from '../../../hooks/api/useEnrollment';
 import ModalityCard from './ModalityCard';
@@ -16,7 +16,18 @@ export default function Payment() {
   const [modalitySelected, setModalitySelected] = useState(null);
   const [hotel, setHotel] = useState(ticketData?.hotelSelected);
   const [hotelSelected, setHotelSelected] = useState(null);
+  const [total, setTotal] = useState(null);
   const navigate = useNavigate();
+
+  useEffect(() => {
+    if (total === null) {
+      setTotal(ticketData?.total);
+    } else {
+      setTotal(hotelSelected?.hotelPrice + modality?.modalityPrice);
+    }
+  }, [hotelSelected]);
+
+  console.log('hotelSelected: ', hotelSelected?.hotelPrice);
 
   function handleModality(modalityType) {
     setModality(modalityType);
@@ -72,7 +83,7 @@ export default function Payment() {
               handleHotel={handleHotel}
               setModalitySelected={setModalitySelected}
               setHotelSelected={setHotelSelected}
-              modality={modality.modalitySelected}
+              modality={modality?.modalitySelected}
               title={'Presencial'}
               price={'250'}
             />
@@ -82,13 +93,13 @@ export default function Payment() {
               handleHotel={handleHotel}
               setModalitySelected={setModalitySelected}
               setHotelSelected={setHotelSelected}
-              modality={modality.modalitySelected}
+              modality={modality?.modalitySelected}
               title={'Online'}
               price={'100'}
             />
           </CardsContainer>
 
-          {modality.modalitySelected === 'Presencial' ? (
+          {modality?.modalitySelected === 'Presencial' ? (
             <>
               <SessionTitle>Ótimo! Agora escolha sua modalidade de hospedagem</SessionTitle>
 
@@ -110,11 +121,19 @@ export default function Payment() {
                 />
               </CardsContainer>
 
-              {hotel && <BookingButton onClick={() => handleBooking()}>RESERVAR INGRESSO</BookingButton>}
+              {hotel && (
+                <>
+                  <SessionTitle>
+                    Fechado! O total ficou em <strong>R$ {`${total}`}</strong>. Agora é só confirmar:
+                  </SessionTitle>
+
+                  <BookingButton onClick={() => handleBooking()}>RESERVAR INGRESSO</BookingButton>
+                </>
+              )}
             </>
           ) : (
             <>
-              {modality.modalitySelected === 'Online' && (
+              {modality?.modalitySelected === 'Online' && (
                 <>
                   <SessionTitle>
                     Fechado! O total ficou em <strong>R$ 100</strong>. Agora é só confirmar:

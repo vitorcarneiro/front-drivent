@@ -48,7 +48,7 @@ const SessionTitle = styled.h3`
 
   color: #8e8e8e;
 
-  margin-top: 37px;
+  margin-top: 27px;
 
   @media screen and (max-width: 650px) {
     font-size: 18px;
