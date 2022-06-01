@@ -7,13 +7,17 @@ const Card = styled.div`
   border-radius: 20px;
 
   background-color: ${(props) => (props.isSelected ? '#ffeed2' : '#ffffff')};
-
+  
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-
+  
   cursor: pointer;
+  
+  pointer-events: ${(props) => (props.disabled ? 'none' : 'auto')};
+  background-color: ${(props) => (props.disabled && '#cecece')};
+
 `;
 
 const CardTitle = styled.h4`
@@ -39,4 +43,16 @@ const CardPrice = styled.p`
   color: #898989;
 `;
 
-export { Card, CardTitle, CardPrice };
+const NoHotel = styled.div`
+  width: 80%;
+  font-family: 'Roboto', 'Helvetica', 'Arial', sans-serif;
+  font-style: normal;
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 16px;
+  text-align: center;
+
+  color: #454545;
+`;
+
+export { Card, CardTitle, CardPrice, NoHotel };

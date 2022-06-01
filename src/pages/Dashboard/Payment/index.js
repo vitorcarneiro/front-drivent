@@ -20,6 +20,10 @@ export default function Payment() {
   const navigate = useNavigate();
 
   useEffect(() => {
+
+  }, []);
+
+  useEffect(() => {
     if (total === null) {
       setTotal(ticketData?.total);
     } else {
@@ -116,6 +120,7 @@ export default function Payment() {
                   hotel={hotel}
                   title={'Com Hotel'}
                   price={'350'}
+                  disabled={true}
                 />
               </CardsContainer>
 
