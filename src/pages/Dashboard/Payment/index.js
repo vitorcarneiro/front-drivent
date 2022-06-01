@@ -2,12 +2,14 @@
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import useEnrollment from '../../../hooks/api/useEnrollment';
+import useHotelsStatus from '../../../hooks/api/useHotelsStatus';
 import ModalityCard from './ModalityCard';
 import HotelCard from './HotelCard';
 import { Container, TitlePage, Content, NotEnrolled, SessionTitle, CardsContainer, BookingButton } from './style';
 
 export default function Payment() {
   const { enrollmentError } = useEnrollment();
+  const { hotelsStatus } = useHotelsStatus();
   const ticketData = JSON.parse(localStorage.getItem('ticket'));
   const [modality, setModality] = useState({
     modalitySelected: ticketData?.modalitySelected,
@@ -17,11 +19,19 @@ export default function Payment() {
   const [hotel, setHotel] = useState(ticketData?.hotelSelected);
   const [hotelSelected, setHotelSelected] = useState(null);
   const [total, setTotal] = useState(null);
+  const [hotelsDisabled, setHotelsDisabled] = useState(false);
   const navigate = useNavigate();
 
   useEffect(() => {
-
-  }, []);
+    if (hotelsStatus) {
+      const eventMaxCapacity = hotelsStatus.reduce((acc, hotel) => { return acc + hotel.capacity; }, 0);
+      const reservationsDone = hotelsStatus.reduce((acc, hotel) => { return acc + hotel.reservations; }, 0);
+      const reservationsLeft = eventMaxCapacity - reservationsDone;
+      
+      if (reservationsLeft <= 0)
+        setHotelsDisabled(true);
+    }
+  }, [hotelsStatus]);
 
   useEffect(() => {
     if (total === null) {
@@ -120,7 +130,7 @@ export default function Payment() {
                   hotel={hotel}
                   title={'Com Hotel'}
                   price={'350'}
-                  disabled={true}
+                  disabled={hotelsDisabled}
                 />
               </CardsContainer>
 
