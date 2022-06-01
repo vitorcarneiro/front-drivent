@@ -34,7 +34,8 @@ export default function CreditCardForm({ cardNumber, name, expiry, cvc, setCardN
           </div>
           <div>
             <InputMask
-              mask="a"
+              mask="aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+              maskChar=" "
               type="text"
               name="name"
               placeholder="Name"
