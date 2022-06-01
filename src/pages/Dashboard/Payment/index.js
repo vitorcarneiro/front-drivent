@@ -17,6 +17,7 @@ export default function Payment() {
   const [hotel, setHotel] = useState(ticketData?.hotelSelected);
   const [hotelSelected, setHotelSelected] = useState(null);
   const [total, setTotal] = useState(null);
+  const [change, setChange] = useState(false);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -28,10 +29,12 @@ export default function Payment() {
   }, [hotelSelected]);
 
   function handleModality(modalityType) {
+    setChange(true);
     setModality(modalityType);
   }
 
   function handleHotel(hotelType) {
+    setChange(true);
     setHotel(hotelType);
   }
 
@@ -46,15 +49,16 @@ export default function Payment() {
           ? modality.modalityPrice + hotelSelected?.hotelPrice
           : modalitySelected?.modalityPrice + hotelSelected?.hotelPrice
         : !modalitySelected?.modalityPrice
-        ? modality.modalityPrice
-        : modalitySelected?.modalityPrice,
+          ? modality.modalityPrice
+          : modalitySelected?.modalityPrice,
     };
-
     if (!localStorage.getItem('ticket')) {
       localStorage.setItem('ticket', JSON.stringify(ticket));
     } else {
-      localStorage.removeItem('ticket');
-      localStorage.setItem('ticket', JSON.stringify(ticket));
+      if (change) {
+        localStorage.removeItem('ticket');
+        localStorage.setItem('ticket', JSON.stringify(ticket));
+      }
     }
 
     navigate('/dashboard/checkout');
