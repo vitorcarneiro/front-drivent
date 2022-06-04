@@ -19,14 +19,14 @@ export const SubTitle = styled.h2`
   font-weight: 400;
   font-size: 20px;
   line-height: 23px;
-  color: #8E8E8E;
+  color: #8e8e8e;
   margin-top: 27px;
 `;
 
 export const TicketOverview = styled.div`
   width: 290px;
   height: 108px;
-  background: #FFEED2;
+  background: #ffeed2;
   border-radius: 20px;
   margin-top: 18px;
   display: flex;
@@ -38,7 +38,7 @@ export const TicketOverview = styled.div`
   font-weight: 400;
   font-size: 16px;
   line-height: 19px;
-  p{
+  p {
     font-weight: 400;
     font-size: 14px;
     color: #898989;
@@ -52,7 +52,7 @@ export const Button = styled.button`
   height: 37px;
   margin-right: 20px;
 
-  background: #E0E0E0;
+  background: #e0e0e0;
   box-shadow: 0px 2px 10px rgba(0, 0, 0, 0.25);
   border-radius: 4px;
 
@@ -62,6 +62,9 @@ export const Button = styled.button`
   display: flex;
   justify-content: center;
   align-items: center;
+
+  cursor: pointer;
+
   @media screen and (max-width: 870px) {
     margin-bottom: 20px;
     font-size: 12px;
@@ -77,26 +80,26 @@ export const CardForms = styled.div`
   display: flex;
   width: 100%;
   margin-top: 20px;
-  p{
+  p {
     font-weight: 400;
     font-size: 15px;
     line-height: 23px;
 
-    color: #8E8E8E;
+    color: #8e8e8e;
   }
-  input{
+  input {
     width: 350px;
     height: 45px;
     border-radius: 6px;
-    border: 1px solid #8E8E8E;
+    border: 1px solid #8e8e8e;
     padding-left: 6px;
     font-size: 18px;
     text-transform: uppercase;
-    &::placeholder{
+    &::placeholder {
       text-transform: lowercase;
     }
   }
-  form{
+  form {
     margin-left: 40px;
 
     @media screen and (max-width: 870px) {
@@ -105,7 +108,7 @@ export const CardForms = styled.div`
       align-items: center;
       margin-top: 30px;
     }
-    div{
+    div {
       margin-bottom: 10px;
     }
   }
@@ -116,16 +119,43 @@ export const CardForms = styled.div`
 
 export const SmallInput = styled.div`
   display: flex;
-  input:first-child{
+  input:first-child {
     width: 230px;
     margin-right: 20px;
   }
-  input:last-child{
+  input:last-child {
     width: 100px;
   }
 `;
+
 export const Card = styled.div`
   @media screen and (max-width: 870px) {
     width: 100px;
   }
+`;
+
+export const SubTitleContainer = styled.div`
+  display: flex;
+  align-items: center;
+  gap: 15px;
+
+  margin-top: 20px;
+`;
+
+export const SubTitleMessage = styled.div`
+  font-style: normal;
+  font-weight: 700;
+  font-size: 16px;
+  line-height: 19px;
+
+  color: #454545;
+`;
+
+export const SubTitleDescription = styled.div`
+  font-style: normal;
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 19px;
+
+  color: #454545;
 `;

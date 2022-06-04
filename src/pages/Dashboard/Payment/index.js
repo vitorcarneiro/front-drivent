@@ -5,12 +5,15 @@ import useEnrollment from '../../../hooks/api/useEnrollment';
 import useHotelsStatus from '../../../hooks/api/useHotelsStatus';
 import ModalityCard from './ModalityCard';
 import HotelCard from './HotelCard';
+import { toast } from 'react-toastify';
+import * as paymentApi from '../../../services/paymentApi';
 import { Container, TitlePage, Content, NotEnrolled, SessionTitle, CardsContainer, BookingButton } from './style';
+import useToken from '../../../hooks/useToken';
 
 export default function Payment() {
   const { enrollmentError } = useEnrollment();
   const { hotelsStatus } = useHotelsStatus();
-  const ticketData = JSON.parse(localStorage.getItem('ticket'));
+  const ticketData = JSON.parse(localStorage.getItem('ticketData'));
   const [modality, setModality] = useState({
     modalitySelected: ticketData?.modalitySelected,
     modalityPrice: ticketData?.modalityPrice,
@@ -21,16 +24,28 @@ export default function Payment() {
   const [total, setTotal] = useState(null);
   const [hotelsDisabled, setHotelsDisabled] = useState(false);
   const [change, setChange] = useState(false);
+  const [loading, setLoading] = useState(true);
   const navigate = useNavigate();
+  const token = useToken();
+
+  useEffect(() => {
+    setTimeout(() => {
+      setLoading(false);
+      handleReservation();
+    }, 500);
+  }, []);
 
   useEffect(() => {
     if (hotelsStatus) {
-      const eventMaxCapacity = hotelsStatus.reduce((acc, hotel) => { return acc + hotel.capacity; }, 0);
-      const reservationsDone = hotelsStatus.reduce((acc, hotel) => { return acc + hotel.reservations; }, 0);
+      const eventMaxCapacity = hotelsStatus.reduce((acc, hotel) => {
+        return acc + hotel.capacity;
+      }, 0);
+      const reservationsDone = hotelsStatus.reduce((acc, hotel) => {
+        return acc + hotel.reservations;
+      }, 0);
       const reservationsLeft = eventMaxCapacity - reservationsDone;
-      
-      if (reservationsLeft <= 0)
-        setHotelsDisabled(true);
+
+      if (reservationsLeft <= 0) setHotelsDisabled(true);
     }
   }, [hotelsStatus]);
 
@@ -41,6 +56,18 @@ export default function Payment() {
       setTotal(hotelSelected?.hotelPrice + modality?.modalityPrice);
     }
   }, [hotelSelected]);
+
+  async function handleReservation() {
+    try {
+      const response = await paymentApi.getRervationById(token);
+
+      if (response && ticketData) {
+        return navigate('/dashboard/checkout');
+      }
+    } catch (error) {
+      toast('Ocorreu um erro ao tentar buscar sua reserva, caso não tenha feito ainda efetue os procedimentos!');
+    }
+  }
 
   function handleModality(modalityType) {
     setChange(true);
@@ -63,20 +90,23 @@ export default function Payment() {
           ? modality.modalityPrice + hotelSelected?.hotelPrice
           : modalitySelected?.modalityPrice + hotelSelected?.hotelPrice
         : !modalitySelected?.modalityPrice
-          ? modality.modalityPrice
-          : modalitySelected?.modalityPrice,
+        ? modality.modalityPrice
+        : modalitySelected?.modalityPrice,
     };
-    if (!localStorage.getItem('ticket')) {
-      localStorage.setItem('ticket', JSON.stringify(ticket));
+
+    if (!localStorage.getItem('ticketData')) {
+      localStorage.setItem('ticketData', JSON.stringify(ticket));
     } else {
       if (change) {
-        localStorage.removeItem('ticket');
-        localStorage.setItem('ticket', JSON.stringify(ticket));
+        localStorage.removeItem('ticketData');
+        localStorage.setItem('ticketData', JSON.stringify(ticket));
       }
     }
 
     navigate('/dashboard/checkout');
   }
+
+  if (loading) return 'Carregando...';
 
   return (
     <Container>
