@@ -31,15 +31,21 @@ export default function Checkout() {
   const token = useToken();
 
   useEffect(() => {
-    handleReservation();
+    let isMounted = true;
+
+    if (isMounted) {
+      handleReservation();
+    }
+
+    return () => {
+      isMounted = false;
+    };
   }, []);
 
   useEffect(() => {
-    setTimeout(() => {
-      if (reservation === '' && !ticketData) {
-        navigate('/dashboard/payment');
-      }
-    }, 500);
+    if (reservation === '' && !ticketData) {
+      navigate('/dashboard/payment');
+    }
   }, [reservation]);
 
   async function handleReservation() {

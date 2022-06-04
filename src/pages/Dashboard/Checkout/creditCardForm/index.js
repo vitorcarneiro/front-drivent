@@ -14,7 +14,7 @@ export default function CreditCardForm({ cardNumber, name, expiry, cvc, setCardN
             number={cardNumber}
             name={name}
             expiry={expiry.replaceAll('_', '')}
-            cvc={cvc}
+            cvc={cvc.replaceAll('_', '')}
             focused={focus}
           />
         </Card>
@@ -64,8 +64,6 @@ export default function CreditCardForm({ cardNumber, name, expiry, cvc, setCardN
           </SmallInput>
         </form>
       </CardForms>
-
     </>
-
   );
 }

@@ -29,10 +29,20 @@ export default function Payment() {
   const token = useToken();
 
   useEffect(() => {
-    setTimeout(() => {
-      setLoading(false);
+    let isMounted = true;
+
+    if (isMounted) {
       handleReservation();
-    }, 500);
+
+      setTimeout(() => {
+        setLoading(false);
+        if (ticketData) return navigate('/dashboard/checkout');
+      }, 1000);
+    }
+
+    return () => {
+      isMounted = false;
+    };
   }, []);
 
   useEffect(() => {
