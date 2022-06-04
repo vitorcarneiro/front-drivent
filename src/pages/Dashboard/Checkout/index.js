@@ -1,3 +1,4 @@
+/* eslint-disable indent */
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import 'react-credit-cards/es/styles-compiled.css';
@@ -35,10 +36,10 @@ export default function Checkout() {
 
   useEffect(() => {
     setTimeout(() => {
-      if (!ticketData && !reservation) {
+      if (reservation === '' && !ticketData) {
         navigate('/dashboard/payment');
       }
-    }, 1000);
+    }, 500);
   }, [reservation]);
 
   async function handleReservation() {
@@ -55,15 +56,38 @@ export default function Checkout() {
     }
   }
 
-  function finishPayment() {
-    const payment = { eventId: 1 };
+  async function finishPayment() {
+    let payment;
+    if (ticketData.modalitySelected === 'Presencial') {
+      payment = {
+        hotelPrice: ticketData.hotelPrice,
+        hotelSelected: ticketData.hotelSelected,
+        modalityPrice: ticketData.modalityPrice,
+        modalitySelected: ticketData.modalitySelected,
+        total: ticketData.total,
+        eventId: 1,
+      };
+    } else {
+      payment = {
+        modalityPrice: ticketData.modalityPrice,
+        modalitySelected: ticketData.modalitySelected,
+        total: ticketData.total,
+        eventId: 1,
+      };
+    }
+
     if (cardNumber === '' || name === '' || expiry === '' || cvc === '') {
       toast('Preencha todas as informações');
       return;
     }
 
-    paymentApi.makePayment(token, payment);
-    setIsPayed(true);
+    try {
+      await paymentApi.makePayment(token, payment);
+
+      setIsPayed(true);
+    } catch (error) {
+      return toast('Ocorreu um erro ao tentar finalizar o seu pagamento!');
+    }
   }
 
   return (
@@ -71,8 +95,14 @@ export default function Checkout() {
       <TitlePage>Ingresso e pagamento</TitlePage>
       <SubTitle>Ingresso escolhido</SubTitle>
       <TicketOverview>
-        {ticketData?.modalitySelected === 'Presencial' ? `Presencial + ${ticketData?.hotelSelected}` : 'Online'}
-        <p>R$ {ticketData?.total}</p>
+        {reservation
+          ? reservation.Transaction[0].modalitySelected === 'Presencial'
+            ? `Presencial + ${reservation.Transaction[0].hotelSelected}`
+            : 'Online'
+          : ticketData?.modalitySelected === 'Presencial'
+          ? `Presencial + ${ticketData?.hotelSelected}`
+          : 'Online'}
+        <p>R$ {reservation ? reservation.Transaction[0].total : ticketData?.total}</p>
       </TicketOverview>
       <SubTitle>Pagamentos</SubTitle>
       {isPayed ? (

@@ -61,7 +61,7 @@ export default function Payment() {
     try {
       const response = await paymentApi.getRervationById(token);
 
-      if (response && ticketData) {
+      if (response) {
         return navigate('/dashboard/checkout');
       }
     } catch (error) {
