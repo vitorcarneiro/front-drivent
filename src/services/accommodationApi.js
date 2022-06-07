@@ -1,6 +1,6 @@
 import api from './api';
 
-export async function getHotelsStatus(token) {
+export async function getHotelsCapacity(token) {
   const response = await api.get('/accommodations', {
     headers: {
       Authorization: `Bearer ${token}`,

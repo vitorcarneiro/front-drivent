@@ -2,7 +2,7 @@
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import useEnrollment from '../../../hooks/api/useEnrollment';
-import useHotelsStatus from '../../../hooks/api/useHotelsStatus';
+import useHotelsCapacity from '../../../hooks/api/useHotelsCapacity';
 import useReservation from '../../../hooks/api/useReservation';
 import ModalityCard from './ModalityCard';
 import HotelCard from './HotelCard';
@@ -11,7 +11,7 @@ import { Container, TitlePage, Content, NotEnrolled, SessionTitle, CardsContaine
 
 export default function Payment() {
   const { enrollmentError } = useEnrollment();
-  const { hotelsStatus } = useHotelsStatus();
+  const { hotelsCapacity } = useHotelsCapacity();
   const { reservation, reservationError } = useReservation();
   const ticketData = JSON.parse(localStorage.getItem('ticketData'));
   const [modality, setModality] = useState({
@@ -45,18 +45,12 @@ export default function Payment() {
   }, [reservation]);
 
   useEffect(() => {
-    if (hotelsStatus) {
-      const eventMaxCapacity = hotelsStatus.reduce((acc, hotel) => {
-        return acc + hotel.capacity;
-      }, 0);
-      const reservationsDone = hotelsStatus.reduce((acc, hotel) => {
-        return acc + hotel.reservations;
-      }, 0);
-      const reservationsLeft = eventMaxCapacity - reservationsDone;
+    if (hotelsCapacity) {
+      const reservationsLeft = hotelsCapacity.capacity - hotelsCapacity.reservations;
 
       if (reservationsLeft <= 0) setHotelsDisabled(true);
     }
-  }, [hotelsStatus]);
+  }, [hotelsCapacity]);
 
   useEffect(() => {
     if (total === null) {
