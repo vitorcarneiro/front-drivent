@@ -3,16 +3,16 @@ import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import useEnrollment from '../../../hooks/api/useEnrollment';
 import useHotelsStatus from '../../../hooks/api/useHotelsStatus';
+import useReservation from '../../../hooks/api/useReservation';
 import ModalityCard from './ModalityCard';
 import HotelCard from './HotelCard';
 import { toast } from 'react-toastify';
-import * as paymentApi from '../../../services/paymentApi';
 import { Container, TitlePage, Content, NotEnrolled, SessionTitle, CardsContainer, BookingButton } from './style';
-import useToken from '../../../hooks/useToken';
 
 export default function Payment() {
   const { enrollmentError } = useEnrollment();
   const { hotelsStatus } = useHotelsStatus();
+  const { reservation, reservationError } = useReservation();
   const ticketData = JSON.parse(localStorage.getItem('ticketData'));
   const [modality, setModality] = useState({
     modalitySelected: ticketData?.modalitySelected,
@@ -25,19 +25,24 @@ export default function Payment() {
   const [hotelsDisabled, setHotelsDisabled] = useState(false);
   const [change, setChange] = useState(false);
   const navigate = useNavigate();
-  const token = useToken();
 
   useEffect(() => {
     let isMounted = true;
 
     if (isMounted) {
-      handleReservation();
+      if (reservationError?.error) {
+        toast('Ocorreu um erro ao tentar buscar sua reserva!');
+      }
+
+      if (reservation) {
+        navigate('/dashboard/checkout');
+      }
     }
 
     return () => {
       isMounted = false;
     };
-  }, []);
+  }, [reservation]);
 
   useEffect(() => {
     if (hotelsStatus) {
@@ -60,18 +65,6 @@ export default function Payment() {
       setTotal(hotelSelected?.hotelPrice + modality?.modalityPrice);
     }
   }, [hotelSelected]);
-
-  async function handleReservation() {
-    try {
-      const response = await paymentApi.getReservationById(token);
-
-      if (response) {
-        return navigate('/dashboard/checkout');
-      }
-    } catch (error) {
-      toast('Ocorreu um erro ao tentar buscar sua reserva, caso não tenha feito ainda efetue os procedimentos!');
-    }
-  }
 
   function handleModality(modalityType) {
     setChange(true);

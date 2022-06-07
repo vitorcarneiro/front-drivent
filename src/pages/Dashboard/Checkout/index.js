@@ -3,6 +3,7 @@ import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import 'react-credit-cards/es/styles-compiled.css';
 import useToken from '../../../hooks/useToken';
+import useReservation from '../../../hooks/api/useReservation';
 import { toast } from 'react-toastify';
 import * as paymentApi from '../../../services/paymentApi';
 import CreditCardForm from './creditCardForm';
@@ -21,46 +22,41 @@ import {
 
 export default function Checkout() {
   const navigate = useNavigate();
+  const { reservation, reservationError } = useReservation();
   const ticketData = JSON.parse(localStorage.getItem('ticketData'));
   const [cardNumber, setCardNumber] = useState('');
   const [name, setName] = useState('');
   const [expiry, setExpiry] = useState('');
   const [cvc, setCvc] = useState('');
   const [isPayed, setIsPayed] = useState(false);
-  const [reservation, setReservation] = useState(null);
+  const [reservationData, setReservationData] = useState(null);
   const token = useToken();
 
   useEffect(() => {
     let isMounted = true;
 
     if (isMounted) {
-      handleReservation();
+      if (reservationError?.error) {
+        toast('Ocorreu um erro ao tentar buscar sua reserva!');
+      }
+
+      setReservationData(reservation);
+
+      if (reservation) {
+        setIsPayed(true);
+      }
     }
 
     return () => {
       isMounted = false;
     };
-  }, []);
-
-  useEffect(() => {
-    if (reservation === '' && !ticketData) {
-      navigate('/dashboard/payment');
-    }
   }, [reservation]);
 
-  async function handleReservation() {
-    try {
-      const response = await paymentApi.getReservationById(token);
-
-      setReservation(response);
-
-      if (response) {
-        setIsPayed(true);
-      }
-    } catch (error) {
-      return toast('Ocorreu um erro ao tentar buscar sua reserva, caso não tenha feito ainda efetue os procedimentos!');
+  useEffect(() => {
+    if (reservationData === '' && !ticketData) {
+      navigate('/dashboard/payment');
     }
-  }
+  }, [reservationData]);
 
   async function finishPayment() {
     let payment;
@@ -83,7 +79,7 @@ export default function Checkout() {
     }
 
     if (cardNumber === '' || name === '' || expiry === '' || cvc === '') {
-      toast('Preencha todas as informações');
+      toast('Preencha todas as informações!');
       return;
     }
 
@@ -101,14 +97,14 @@ export default function Checkout() {
       <TitlePage>Ingresso e pagamento</TitlePage>
       <SubTitle>Ingresso escolhido</SubTitle>
       <TicketOverview>
-        {reservation
-          ? reservation.Transaction[0].modalitySelected === 'Presencial'
-            ? `Presencial + ${reservation.Transaction[0].hotelSelected}`
+        {reservationData
+          ? reservationData.Transaction[0].modalitySelected === 'Presencial'
+            ? `Presencial + ${reservationData.Transaction[0].hotelSelected}`
             : 'Online'
           : ticketData?.modalitySelected === 'Presencial'
           ? `Presencial + ${ticketData?.hotelSelected}`
           : 'Online'}
-        <p>R$ {reservation ? reservation.Transaction[0].total : ticketData?.total}</p>
+        <p>R$ {reservationData ? reservationData.Transaction[0].total : ticketData?.total}</p>
       </TicketOverview>
       <SubTitle>Pagamentos</SubTitle>
       {isPayed ? (
