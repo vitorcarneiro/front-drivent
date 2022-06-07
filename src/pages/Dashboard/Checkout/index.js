@@ -27,7 +27,7 @@ export default function Checkout() {
   const [expiry, setExpiry] = useState('');
   const [cvc, setCvc] = useState('');
   const [isPayed, setIsPayed] = useState(false);
-  const [reservation, setRervation] = useState(null);
+  const [reservation, setReservation] = useState(null);
   const token = useToken();
 
   useEffect(() => {
@@ -50,9 +50,9 @@ export default function Checkout() {
 
   async function handleReservation() {
     try {
-      const response = await paymentApi.getRervationById(token);
+      const response = await paymentApi.getReservationById(token);
 
-      setRervation(response);
+      setReservation(response);
 
       if (response) {
         setIsPayed(true);

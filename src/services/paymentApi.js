@@ -9,7 +9,7 @@ export async function makePayment(token, body) {
   return response.data;
 }
 
-export async function getRervationById(token) {
+export async function getReservationById(token) {
   const response = await api.get('/accommodations/reservation', {
     headers: {
       Authorization: `Bearer ${token}`,

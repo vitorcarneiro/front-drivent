@@ -24,7 +24,6 @@ export default function Payment() {
   const [total, setTotal] = useState(null);
   const [hotelsDisabled, setHotelsDisabled] = useState(false);
   const [change, setChange] = useState(false);
-  const [loading, setLoading] = useState(true);
   const navigate = useNavigate();
   const token = useToken();
 
@@ -33,11 +32,6 @@ export default function Payment() {
 
     if (isMounted) {
       handleReservation();
-
-      setTimeout(() => {
-        setLoading(false);
-        if (ticketData) return navigate('/dashboard/checkout');
-      }, 1000);
     }
 
     return () => {
@@ -69,7 +63,7 @@ export default function Payment() {
 
   async function handleReservation() {
     try {
-      const response = await paymentApi.getRervationById(token);
+      const response = await paymentApi.getReservationById(token);
 
       if (response) {
         return navigate('/dashboard/checkout');
@@ -115,8 +109,6 @@ export default function Payment() {
 
     navigate('/dashboard/checkout');
   }
-
-  if (loading) return 'Carregando...';
 
   return (
     <Container>
