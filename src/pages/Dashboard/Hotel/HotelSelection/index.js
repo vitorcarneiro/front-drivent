@@ -10,6 +10,7 @@ import Card from '../Card';
 
 export default function HotelSelection() {
   const [hotelsToSelect, setHotelsToSelect] = useState([]);
+  const [hotelSelected, setHotelSelected] = useState(null);
   const navigate = useNavigate();
 
   const { hotels, hotelsError } = useHotels();
@@ -24,6 +25,10 @@ export default function HotelSelection() {
       setHotelsToSelect(hotels);
     }
   }, [hotels]);
+
+  function handleHotelSelection(hotelId) {
+    console.log(hotelId);
+  }
   
   return (
     <Container>
@@ -34,11 +39,14 @@ export default function HotelSelection() {
         {hotelsToSelect.map(
           (hotel) =>
             <Card
+              id={hotel.id}
               name={hotel.name}
               imageUrl = {hotel.imageUrl}
               capacity={hotel.capacity}
               reservations={hotel.reservations}
               accommodationTypes={hotel.accommodationTypes}
+              hotelSelected={hotelSelected}
+              setHotelSelected={setHotelSelected}
             />
         )}
         

@@ -1,21 +1,22 @@
-import { HotelCard, CardTitle, CardPrice, HotelTitle, HotelSubTitle, HotelInfo, HotelImage } from '../../../../components/Card/style';
+import { HotelCard, HotelTitle, HotelSubTitle, HotelInfo, HotelImage } from '../../../../components/Card/style';
 
 export default function Card({
+  id,
   name,
   capacity,
   reservations,
   accommodationTypes,
   imageUrl,
-  setModalitySelected,
+  hotelSelected,
   setHotelSelected,
-  handleHotel,
-  modality,
 }) {
   const defaultHotelUrl = 'https://ftnnews.com/images/stories/hotels/Hotel-construction.jpg';
 
-  function handleIsSelected(name) {
-    handleHotel(null);
-    setHotelSelected(null);
+  function handleSelection(id) {
+    if (hotelSelected === id) 
+      return setHotelSelected(null);
+    
+    setHotelSelected(id);
   }
     
   function handleAccommodationTypes() {
@@ -37,7 +38,7 @@ export default function Card({
   }
 
   return (
-    <HotelCard isSelected={name === modality} onClick={() => console.log(name)}>
+    <HotelCard isSelected={id === hotelSelected} onClick={() => handleSelection(id)}>
     
       <HotelImage alt={name} src={imageUrl ? imageUrl : defaultHotelUrl}/>
 
