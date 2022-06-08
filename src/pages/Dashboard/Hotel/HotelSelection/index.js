@@ -7,7 +7,6 @@ import Card from '../Card';
 export default function HotelSelection() {
   const [hotelsToSelect, setHotelsToSelect] = useState([]);
   const [hotelSelected, setHotelSelected] = useState(null);
-
   const { hotels, hotelsError } = useHotels();
 
   useEffect(() => {
