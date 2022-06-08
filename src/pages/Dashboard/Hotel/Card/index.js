@@ -17,6 +17,7 @@ export default function Card({
       return setHotelSelected(null);
     
     setHotelSelected(id);
+    handleGetRooms(id);
   }
     
   function handleAccommodationTypes() {
@@ -35,6 +36,11 @@ export default function Card({
     }
       
     return accommodations;
+  }
+
+  function handleGetRooms(hotelId) {
+    // eslint-disable-next-line no-console
+    console.log(hotelId);
   }
 
   const bedsLeft = capacity - reservations;

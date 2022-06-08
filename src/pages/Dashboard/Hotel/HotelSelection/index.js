@@ -3,6 +3,7 @@ import useHotels from '../../../../hooks/api/useHotels';
 import { toast } from 'react-toastify';
 import { Container, SessionTitle, CardsContainer } from './style';
 import Card from '../Card';
+import RoomSelection from '../RoomSelection';
 
 export default function HotelSelection() {
   const [hotelsToSelect, setHotelsToSelect] = useState([]);
@@ -18,7 +19,7 @@ export default function HotelSelection() {
       setHotelsToSelect(hotels);
     }
   }, [hotels]);
-  
+
   return (
     <Container>
       <SessionTitle>Primeiro, escolha seu hotel</SessionTitle>
@@ -28,6 +29,7 @@ export default function HotelSelection() {
         {hotelsToSelect.map(
           (hotel) =>
             <Card
+              key={hotel.id}
               id={hotel.id}
               name={hotel.name}
               imageUrl = {hotel.imageUrl}
@@ -42,7 +44,10 @@ export default function HotelSelection() {
       </CardsContainer>
 
       {hotelSelected &&
-        <SessionTitle>Ótima pedida! Agora escolha seu quarto:</SessionTitle>
+        <>
+          <SessionTitle>Ótima pedida! Agora escolha seu quarto:</SessionTitle>
+          <RoomSelection/>
+        </>
       }
 
     </Container>
