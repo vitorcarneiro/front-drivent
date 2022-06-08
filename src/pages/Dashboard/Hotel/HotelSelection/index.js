@@ -4,10 +4,8 @@
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import useHotels from '../../../../hooks/api/useHotels';
-import ModalityCard from '../../Payment/ModalityCard';
-import HotelCard from '../../Payment/HotelCard';
 import { toast } from 'react-toastify';
-import { Container, TitlePage, Content, NotEnrolled, SessionTitle, CardsContainer, BookingButton } from '../../Payment/style';
+import { Container, SessionTitle, CardsContainer } from './style';
 import Card from '../Card';
 
 export default function HotelSelection() {
@@ -37,6 +35,7 @@ export default function HotelSelection() {
           (hotel) =>
             <Card
               name={hotel.name}
+              imageUrl = {hotel.imageUrl}
               capacity={hotel.capacity}
               reservations={hotel.reservations}
               accommodationTypes={hotel.accommodationTypes}

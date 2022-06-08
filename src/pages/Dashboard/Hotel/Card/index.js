@@ -5,6 +5,7 @@ export default function Card({
   capacity,
   reservations,
   accommodationTypes,
+  imageUrl,
   setModalitySelected,
   setHotelSelected,
   handleHotel,
@@ -19,6 +20,9 @@ export default function Card({
     
   function handleAccommodationTypes() {
     const accommodations = [];
+    if (accommodationTypes.length === 0)
+      accommodations.push('Sem acomodações');
+
     for (let i = 0; i < accommodationTypes.length; i++) {
       if (i === accommodationTypes.length - 1 && accommodationTypes.length !== 1) 
         accommodations.push(' e ');
@@ -35,7 +39,7 @@ export default function Card({
   return (
     <HotelCard isSelected={name === modality} onClick={() => console.log(name)}>
     
-      <HotelImage alt={name} src={defaultHotelUrl}/>
+      <HotelImage alt={name} src={imageUrl ? imageUrl : defaultHotelUrl}/>
 
       <HotelTitle>{name}</HotelTitle>
 
