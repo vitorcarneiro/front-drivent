@@ -17,7 +17,6 @@ const Card = styled.div`
   
   pointer-events: ${(props) => (props.disabled ? 'none' : 'auto')};
   background-color: ${(props) => (props.disabled && '#cecece')};
-
 `;
 
 const CardTitle = styled.h4`
@@ -55,4 +54,61 @@ const NoHotel = styled.div`
   color: #454545;
 `;
 
-export { Card, CardTitle, CardPrice, NoHotel };
+const HotelCard = styled.div`
+  width: 196px;
+  height: 264px;
+  border-radius: 10px;
+
+  background-color: ${(props) => (props.isSelected ? '#ffeed2' : '#F1F1F1')};
+  
+  padding: 14px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: space-between;
+  
+  cursor: pointer;
+`;
+
+const HotelTitle = styled.h3`
+  font-family: 'Roboto', 'Helvetica', 'Arial', sans-serif;
+  font-style: normal;
+  font-weight: 400;
+  font-size: 20px;
+  line-height: 23px;
+
+  color: #343434;
+
+  margin-bottom: 3px;
+`;
+
+const HotelSubTitle = styled.div`
+  font-family: 'Roboto', 'Helvetica', 'Arial', sans-serif;
+  font-style: normal;
+  font-weight: 700;
+  font-size: 12px;
+  line-height: 14px;
+
+  color: #3C3C3C;
+`;
+
+const HotelInfo = styled.h4`
+  font-family: 'Roboto', 'Helvetica', 'Arial', sans-serif;
+  font-style: normal;
+  font-weight: 400;
+  font-size: 12px;
+  line-height: 14px;
+  margin-top: 2px;
+
+  color: #3C3C3C;
+`;
+
+const HotelImage = styled.img`
+  width: 100%;
+  height: 109px;
+  border-radius: 5px;
+
+  object-fit: cover;
+`;
+
+export { Card, CardTitle, CardPrice, NoHotel, HotelCard, HotelTitle, HotelSubTitle, HotelInfo, HotelImage };
