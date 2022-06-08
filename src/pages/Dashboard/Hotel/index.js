@@ -1,6 +1,8 @@
 import useReservation from '../../../hooks/api/useReservation';
 import { Container, TitlePage, Content, NotPaid } from './style';
 
+import HotelSelection from './HotelSelection';
+
 export default function Hotel() {
   const { reservation } = useReservation();
 
@@ -22,7 +24,7 @@ export default function Hotel() {
           </NotPaid>
         </Content>
       ) : (
-        <>CODIGO DE MOSTRAR OS HOTEIS VEM AQUI, PESSOAL</>
+        <HotelSelection/>
       )}
     </Container>
   );
