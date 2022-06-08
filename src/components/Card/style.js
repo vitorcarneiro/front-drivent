@@ -55,6 +55,7 @@ const NoHotel = styled.div`
 `;
 
 const HotelCard = styled.div`
+  position: relative;
   width: 196px;
   height: 264px;
   border-radius: 10px;
@@ -68,6 +69,9 @@ const HotelCard = styled.div`
   justify-content: space-between;
   
   cursor: pointer;
+  
+  pointer-events: ${(props) => (props.disabled ? 'none' : 'auto')};
+  background-color: ${(props) => (props.disabled && '#cecece')};
 `;
 
 const HotelTitle = styled.h3`
@@ -111,4 +115,17 @@ const HotelImage = styled.img`
   object-fit: cover;
 `;
 
-export { Card, CardTitle, CardPrice, NoHotel, HotelCard, HotelTitle, HotelSubTitle, HotelInfo, HotelImage };
+const SoldOut = styled.h2`
+  position: absolute;
+  top: 22%;
+  left: 35%;
+  font-family: 'Roboto', 'Helvetica', 'Arial', sans-serif;
+  font-style: normal;
+  font-weight: 700;
+  font-size: 40px;
+  color: #FF0000;
+  transform-origin: 0 0;
+  transform: rotate(55deg);
+`;
+
+export { Card, CardTitle, CardPrice, NoHotel, HotelCard, HotelTitle, HotelSubTitle, HotelInfo, HotelImage, SoldOut };

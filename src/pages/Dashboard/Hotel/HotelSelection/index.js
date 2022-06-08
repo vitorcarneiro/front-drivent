@@ -1,8 +1,4 @@
-/* eslint-disable no-unused-vars */
-/* eslint-disable no-console */
-/* eslint-disable indent */
 import { useEffect, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
 import useHotels from '../../../../hooks/api/useHotels';
 import { toast } from 'react-toastify';
 import { Container, SessionTitle, CardsContainer } from './style';
@@ -11,7 +7,6 @@ import Card from '../Card';
 export default function HotelSelection() {
   const [hotelsToSelect, setHotelsToSelect] = useState([]);
   const [hotelSelected, setHotelSelected] = useState(null);
-  const navigate = useNavigate();
 
   const { hotels, hotelsError } = useHotels();
 
@@ -21,14 +16,9 @@ export default function HotelSelection() {
         toast('Ocorreu um erro ao tentar buscar os hotéis disponíveis!');
       }
 
-      console.log(hotels);
       setHotelsToSelect(hotels);
     }
   }, [hotels]);
-
-  function handleHotelSelection(hotelId) {
-    console.log(hotelId);
-  }
   
   return (
     <Container>
@@ -51,6 +41,10 @@ export default function HotelSelection() {
         )}
         
       </CardsContainer>
+
+      {hotelSelected &&
+        <SessionTitle>Ótima pedida! Agora escolha seu quarto:</SessionTitle>
+      }
 
     </Container>
   );

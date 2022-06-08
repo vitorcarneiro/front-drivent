@@ -1,4 +1,4 @@
-import { HotelCard, HotelTitle, HotelSubTitle, HotelInfo, HotelImage } from '../../../../components/Card/style';
+import { HotelCard, HotelTitle, HotelSubTitle, HotelInfo, HotelImage, SoldOut } from '../../../../components/Card/style';
 
 export default function Card({
   id,
@@ -37,9 +37,17 @@ export default function Card({
     return accommodations;
   }
 
+  const bedsLeft = capacity - reservations;
+  const disabled = bedsLeft ? false : true;
+
   return (
-    <HotelCard isSelected={id === hotelSelected} onClick={() => handleSelection(id)}>
+    <HotelCard
+      isSelected={id === hotelSelected}
+      disabled={disabled}
+      onClick={() => handleSelection(id)}>
     
+      {disabled && <SoldOut>Esgotado</SoldOut>}
+
       <HotelImage alt={name} src={imageUrl ? imageUrl : defaultHotelUrl}/>
 
       <HotelTitle>{name}</HotelTitle>
@@ -51,7 +59,7 @@ export default function Card({
 
       <HotelSubTitle>
               Vagas disponíveis
-        <HotelInfo>{capacity - reservations}</HotelInfo>
+        <HotelInfo>{bedsLeft}</HotelInfo>
       </HotelSubTitle>
           
     </HotelCard>
