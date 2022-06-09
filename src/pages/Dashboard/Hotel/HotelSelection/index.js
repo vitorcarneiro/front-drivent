@@ -25,31 +25,27 @@ export default function HotelSelection() {
       <SessionTitle>Primeiro, escolha seu hotel</SessionTitle>
 
       <CardsContainer>
-    
-        {hotelsToSelect.map(
-          (hotel) =>
-            <Card
-              key={hotel.id}
-              id={hotel.id}
-              name={hotel.name}
-              imageUrl = {hotel.imageUrl}
-              capacity={hotel.capacity}
-              reservations={hotel.reservations}
-              accommodationTypes={hotel.accommodationTypes}
-              hotelSelected={hotelSelected}
-              setHotelSelected={setHotelSelected}
-            />
-        )}
-        
+        {hotelsToSelect.map((hotel) => (
+          <Card
+            key={hotel.id}
+            id={hotel.id}
+            name={hotel.name}
+            imageUrl={hotel.imageUrl}
+            capacity={hotel.capacity}
+            reservations={hotel.reservations}
+            accommodationTypes={hotel.accommodationTypes}
+            hotelSelected={hotelSelected}
+            setHotelSelected={setHotelSelected}
+          />
+        ))}
       </CardsContainer>
 
-      {hotelSelected &&
+      {hotelSelected && (
         <>
           <SessionTitle>Ótima pedida! Agora escolha seu quarto:</SessionTitle>
-          <RoomSelection/>
+          <RoomSelection hotelId={hotelSelected} />
         </>
-      }
-
+      )}
     </Container>
   );
 }

@@ -9,6 +9,7 @@ import FillSubscription from './pages/Dashboard/FillSubscription';
 import Payment from './pages/Dashboard/Payment';
 import Checkout from './pages/Dashboard/Checkout';
 import Hotel from './pages/Dashboard/Hotel';
+import Review from './pages/Dashboard/Hotel/Review';
 import Activities from './pages/Dashboard/Activities';
 import Certificate from './pages/Dashboard/Certificate';
 
@@ -41,6 +42,7 @@ export default function App() {
                 <Route path="payment" element={<Payment />} />
                 <Route path="checkout" element={<Checkout />} />
                 <Route path="hotel" element={<Hotel />} />
+                <Route path="review" element={<Review />} />
                 <Route path="activities" element={<Activities />} />
                 <Route path="certificate" element={<Certificate />} />
                 <Route index path="*" element={<Navigate to="/dashboard/subscription" />} />

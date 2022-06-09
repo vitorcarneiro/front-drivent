@@ -1,3 +1,4 @@
+/* eslint-disable indent */
 import useReservation from '../../../hooks/api/useReservation';
 import { Container, TitlePage, Content, NotPaid } from './style';
 
@@ -16,7 +17,8 @@ export default function Hotel() {
             de fazer escolha de hospedagem
           </NotPaid>
         </Content>
-      ) : reservation.Transaction[0].modalitySelected === 'Online' ? (
+      ) : reservation.Transaction[0].modalitySelected === 'Online' ||
+        reservation.Transaction[0].hotelSelected === 'Sem Hotel' ? (
         <Content>
           <NotPaid>
             Sua modalidade de ingresso não inclui hospedagem <br />
@@ -24,7 +26,7 @@ export default function Hotel() {
           </NotPaid>
         </Content>
       ) : (
-        <HotelSelection/>
+        <HotelSelection />
       )}
     </Container>
   );
