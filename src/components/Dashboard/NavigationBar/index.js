@@ -9,7 +9,8 @@ import * as paymentApi from '../../../services/paymentApi';
 
 export default function NavigationBar() {
   const location = useLocation();
-  const [test, setTest] = useState('/dashboard/payment');
+  const [paymentPath, setPaymentPath] = useState('/dashboard/payment');
+  const [hotelPath, setHotelPath] = useState('/dashboard/hotel');
   const [loading, setLoading] = useState(false);
   const token = useToken();
   const { reload } = useContext(ReloadContext);
@@ -20,13 +21,17 @@ export default function NavigationBar() {
     setLoading(true);
     paymentApi.getReservationById(token).then((answer) => {
       if (answer !== '') {
-        setTest('/dashboard/checkout');
-        setLoading(false);
+        setPaymentPath('/dashboard/checkout');
       } else {
-        setTest('/dashboard/payment');
-        setLoading(false);
+        setPaymentPath('/dashboard/payment');
+      }
+      if (answer.roomId !== null) {
+        setHotelPath('/dashboard/review');
+      } else {
+        setHotelPath('/dashboard/hotel');
       }
     });
+    setLoading(false);
   }, [reload]);
 
   return (
@@ -38,15 +43,15 @@ export default function NavigationBar() {
         </NavigationButton>
       </Link>
 
-      <Link to={test}>
-        <NavigationButton active={isActive('/dashboard/payment')}>
+      <Link to={paymentPath}>
+        <NavigationButton active={isActive(paymentPath)}>
           <FaMoneyBill />
           <span>Pagamento</span>
         </NavigationButton>
       </Link>
 
-      <Link to="/dashboard/hotel">
-        <NavigationButton active={isActive('/dashboard/hotel')}>
+      <Link to={hotelPath}>
+        <NavigationButton active={isActive(hotelPath)}>
           <FaBed />
           <span>Hotel</span>
         </NavigationButton>
