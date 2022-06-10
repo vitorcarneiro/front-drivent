@@ -12,6 +12,7 @@ import Hotel from './pages/Dashboard/Hotel';
 import Review from './pages/Dashboard/Hotel/Review';
 import Activities from './pages/Dashboard/Activities';
 import Certificate from './pages/Dashboard/Certificate';
+import Oauth from './pages/Dashboard/Oauth';
 
 import { EventInfoProvider } from './contexts/EventInfoContext';
 import { UserProvider } from './contexts/UserContext';
@@ -31,7 +32,8 @@ export default function App() {
                 <Route path="/" element={<Countdown />} />
                 <Route path="/enroll" element={<Enroll />} />
                 <Route path="/sign-in" element={<SignIn />} />
-                  
+                <Route path="/oauth" element={<Oauth />} />
+
                 <Route
                   path="/dashboard"
                   element={
