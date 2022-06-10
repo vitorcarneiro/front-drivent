@@ -27,3 +27,19 @@ export const Row = styled.div`
   justify-content: flex-start;
   width: 100%;
 `;
+
+export const DividerContainer = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 15px;
+  margin-top: 16px;
+  margin-bottom: 26px;
+  width: 100%;
+`;
+
+export const Divider = styled.div`
+  background-color: #c4c4c4;
+  height: 1px;
+  width: 40%;
+`;
