@@ -41,3 +41,15 @@ export async function updateRoom(token, roomId) {
     }
   );
 }
+
+export async function getReview(token, userId) {
+  const response = await api.get(
+    `/accommodations/${userId}/review`,
+    {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    }
+  );
+  return response.data;
+}

@@ -4,11 +4,14 @@ import { toast } from 'react-toastify';
 import { Container, SessionTitle, CardsContainer } from './style';
 import Card from '../Card';
 import RoomSelection from '../RoomSelection';
+import { useLocation } from 'react-router-dom';
 
 export default function HotelSelection() {
   const [hotelsToSelect, setHotelsToSelect] = useState([]);
   const [hotelSelected, setHotelSelected] = useState(null);
   const { hotels, hotelsError } = useHotels();
+  const location = useLocation();
+  const { state } = location;
 
   useEffect(() => {
     if (hotels) {
@@ -17,6 +20,7 @@ export default function HotelSelection() {
       }
 
       setHotelsToSelect(hotels);
+      setHotelSelected(state?.hotelSelected);
     }
   }, [hotels]);
 

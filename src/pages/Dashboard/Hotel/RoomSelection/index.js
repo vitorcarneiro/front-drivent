@@ -1,19 +1,24 @@
 /* eslint-disable indent */
 /* eslint-disable padded-blocks */
 import { useEffect, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import * as accommodationApi from '../../../../services/accommodationApi';
 import useToken from '../../../../hooks/useToken';
 import { BsFillPersonFill, BsPerson } from 'react-icons/bs';
 import { RoomContainer, RoomContent, RoomCode, ConfirmButton } from './style';
+import ReloadContext from '../../../../contexts/reloadContext';
+import { useContext } from 'react';
 
 export default function RoomSelection({ hotelId }) {
   const [rooms, setRooms] = useState(null);
   const [roomId, setRoomId] = useState(null);
   const navigate = useNavigate();
+  const location = useLocation();
+  const { state } = location;
   const token = useToken();
   const { user } = JSON.parse(localStorage.getItem('userData'));
+  const { reload, setReload } = useContext(ReloadContext);
 
   useEffect(() => {
     handleGetRooms();
@@ -22,7 +27,6 @@ export default function RoomSelection({ hotelId }) {
   function handleSelectRoom(roomId) {
     setRoomId(roomId);
   }
-
   function handleSelectUserRoom(rooms) {
     for (let i = 0; i < rooms.length; i++) {
       const room = rooms[i];
@@ -52,7 +56,9 @@ export default function RoomSelection({ hotelId }) {
     try {
       await accommodationApi.updateRoom(token, roomId);
 
+      setReload(!reload);
       navigate('/dashboard/review');
+
     } catch (error) {
       toast('Ocorreu um erro ao tentar alugar o quarto!');
     }
@@ -80,8 +86,8 @@ export default function RoomSelection({ hotelId }) {
                   room.reservations[0].userId === user?.id
                     ? '#FF4791'
                     : room.capacity === room.reservations.length
-                    ? '#8C8C8C'
-                    : '#000000'
+                      ? '#8C8C8C'
+                      : '#000000'
                 }
                 size={25}
               />
@@ -104,8 +110,8 @@ export default function RoomSelection({ hotelId }) {
                     reservation.userId === user?.id
                       ? '#FF4791'
                       : room.capacity === room.reservations.length
-                      ? '#8C8C8C'
-                      : '#000000'
+                        ? '#8C8C8C'
+                        : '#000000'
                   }
                   size={25}
                 />
@@ -138,8 +144,8 @@ export default function RoomSelection({ hotelId }) {
                   reservation.userId === user?.id
                     ? '#FF4791'
                     : room.capacity === room.reservations.length
-                    ? '#8C8C8C'
-                    : '#000000'
+                      ? '#8C8C8C'
+                      : '#000000'
                 }
                 size={25}
               />
@@ -155,6 +161,7 @@ export default function RoomSelection({ hotelId }) {
       <RoomContainer>{roomsReader}</RoomContainer>
 
       <ConfirmButton onClick={() => handleConfirmRoom()}>RESERVAR QUARTO</ConfirmButton>
+      {state?.isChangeRoom && <ConfirmButton onClick={() => navigate('/dashboard/review')}>CANCELAR TROCA</ConfirmButton>}
     </>
   );
 }

@@ -51,6 +51,7 @@ const ConfirmButton = styled.button`
   border-radius: 4px;
 
   margin-bottom: 50px;
+  margin-right: 20px;
 `;
 
 export { RoomContainer, RoomContent, RoomCode, ConfirmButton };
