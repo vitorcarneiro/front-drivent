@@ -25,7 +25,7 @@ export default function NavigationBar() {
       } else {
         setPaymentPath('/dashboard/payment');
       }
-      if (answer.roomId !== null) {
+      if (answer?.roomId) {
         setHotelPath('/dashboard/review');
       } else {
         setHotelPath('/dashboard/hotel');
