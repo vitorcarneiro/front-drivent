@@ -16,6 +16,8 @@ export default function RoomSelection({ hotelId }) {
   const { user } = JSON.parse(localStorage.getItem('userData'));
 
   useEffect(() => {
+    // eslint-disable-next-line no-console
+    console.log(hotelId);
     handleGetRooms();
   }, [hotelId]);
 
