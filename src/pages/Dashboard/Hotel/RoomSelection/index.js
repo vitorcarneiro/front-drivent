@@ -21,8 +21,6 @@ export default function RoomSelection({ hotelId }) {
   const { reload, setReload } = useContext(ReloadContext);
 
   useEffect(() => {
-    // eslint-disable-next-line no-console
-    console.log(hotelId);
     handleGetRooms();
   }, [hotelId]);
 
@@ -60,7 +58,6 @@ export default function RoomSelection({ hotelId }) {
 
       setReload(!reload);
       navigate('/dashboard/review');
-
     } catch (error) {
       toast('Ocorreu um erro ao tentar alugar o quarto!');
     }
@@ -88,8 +85,8 @@ export default function RoomSelection({ hotelId }) {
                   room.reservations[0].userId === user?.id
                     ? '#FF4791'
                     : room.capacity === room.reservations.length
-                      ? '#8C8C8C'
-                      : '#000000'
+                    ? '#8C8C8C'
+                    : '#000000'
                 }
                 size={25}
               />
@@ -112,8 +109,8 @@ export default function RoomSelection({ hotelId }) {
                     reservation.userId === user?.id
                       ? '#FF4791'
                       : room.capacity === room.reservations.length
-                        ? '#8C8C8C'
-                        : '#000000'
+                      ? '#8C8C8C'
+                      : '#000000'
                   }
                   size={25}
                 />
@@ -146,8 +143,8 @@ export default function RoomSelection({ hotelId }) {
                   reservation.userId === user?.id
                     ? '#FF4791'
                     : room.capacity === room.reservations.length
-                      ? '#8C8C8C'
-                      : '#000000'
+                    ? '#8C8C8C'
+                    : '#000000'
                 }
                 size={25}
               />
@@ -163,7 +160,9 @@ export default function RoomSelection({ hotelId }) {
       <RoomContainer>{roomsReader}</RoomContainer>
 
       <ConfirmButton onClick={() => handleConfirmRoom()}>RESERVAR QUARTO</ConfirmButton>
-      {state?.isChangeRoom && <ConfirmButton onClick={() => navigate('/dashboard/review')}>CANCELAR TROCA</ConfirmButton>}
+      {state?.isChangeRoom && (
+        <ConfirmButton onClick={() => navigate('/dashboard/review')}>CANCELAR TROCA</ConfirmButton>
+      )}
     </>
   );
 }
